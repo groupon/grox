@@ -1,0 +1,43 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+apply from: rootProject.file("${quality_gradle_android_file}")
+apply plugin: 'com.github.hierynomus.license'
+
+android {
+  compileSdkVersion versions.compileSdk
+  buildToolsVersion versions.buildTools
+  defaultConfig {
+    minSdkVersion versions.minSdk
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+}
+
+dependencies {
+  compile project(':grox-core-rx')
+  compile project(':grox-commands-rx')
+  compile deps.findbugs
+
+  compile deps.rxjava
+  compile deps.rxbinding
+  compile deps.support.compat
+  compile deps.support.design
+
+  testCompile deps.junit
+  testCompile deps.easymock
+}
+
+task licenseFormatSrc (type:nl.javadude.gradle.plugins.license.License) {
+  source = files("src/main/java", "src/test/java")
+}
+licenseFormat.dependsOn licenseFormatSrc
+
+license {
+  header = rootProject.file('LICENSE')
+  mapping {
+    java = 'SLASHSTAR_STYLE'
+  }
+}
+

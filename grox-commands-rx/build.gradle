@@ -1,0 +1,28 @@
+apply plugin: 'java'
+apply plugin: 'me.tatarka.retrolambda'
+apply from: rootProject.file("${quality_gradle_java_file}")
+apply plugin: 'com.github.hierynomus.license'
+
+dependencies {
+  compile project(':grox-core')
+  compile deps.findbugs
+  compile deps.rxjava
+
+  testCompile deps.junit
+  testCompile deps.easymock
+}
+
+task licenseFormatSrc (type:nl.javadude.gradle.plugins.license.License) {
+  source = files("src/main/java", "src/test/java")
+}
+licenseFormat.dependsOn licenseFormatSrc
+
+license {
+  header = rootProject.file('LICENSE')
+  mapping {
+    java = 'SLASHSTAR_STYLE'
+  }
+}
+
+group 'com.groupon.grox'
+version '1.0.0-SNAPSHOT'

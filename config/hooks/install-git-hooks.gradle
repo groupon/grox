@@ -1,0 +1,16 @@
+task installPreCommitGitHook(type: Copy) {
+    from new File(rootProject.rootDir, 'config/hooks/pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks') }
+
+    doFirst {
+        println "Installing pre-commit hook"
+    }
+
+    doLast {
+        Runtime.getRuntime().exec("chmod -R +x .git/hooks/pre-commit");
+    }
+}
+
+task build {
+    dependsOn installPreCommitGitHook
+}

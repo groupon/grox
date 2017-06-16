@@ -1,0 +1,53 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply from: rootProject.file('config/hooks/install-git-hooks.gradle')
+
+buildscript {
+  ext.versions = ['minSdk'        : 14,
+                  'compileSdk'    : 25,
+                  'buildTools'    : '25.0.2',
+
+                  'supportLibrary': '25.3.1',]
+
+  ext.deps = [findbugs       : 'com.google.code.findbugs:jsr305:2.0.1',
+              junit          : 'junit:junit:4.12',
+              easymock       : 'org.easymock:easymock:3.4',
+              rxjava         : 'io.reactivex:rxjava:1.2.7',
+              rxbinding      : 'com.jakewharton.rxbinding:rxbinding:1.0.1',
+              retrolambda    : 'me.tatarka:gradle-retrolambda:3.6.1',
+
+              'support'      : ['compat': "com.android.support:support-compat:${versions.supportLibrary}",
+                                'design': "com.android.support:design:${versions.supportLibrary}",],]
+
+  repositories {
+    jcenter()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:2.3.1'
+    classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+    classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.14.0"
+  }
+}
+
+allprojects {
+  repositories {
+    jcenter()
+  }
+
+  ext {
+    // plugin for all (checkstyle, pmd and findbugs)
+    quality_gradle_java_file = "config/quality_java.gradle"
+    quality_gradle_android_file = "config/quality_android.gradle"
+
+    // config files
+    pmd_rulesetFile = "${project.rootDir}/config/pmd/pmd-ruleset.xml"
+    findbugs_excludeFile = "${project.rootDir}/config/findbugs/excludeFilter.xml"
+  }
+}
+
+task clean(type: Delete) {
+  delete rootProject.buildDir
+}
+

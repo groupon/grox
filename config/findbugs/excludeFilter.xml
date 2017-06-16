@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+  <!-- http://stackoverflow.com/questions/7568579/eclipsefindbugs-exclude-filter-files-doesnt-work -->
+  <Match>
+    <Class name="~.*\.R\$.*"/>
+  </Match>
+  <Match>
+    <Class name="~.*\.Manifest\$.*"/>
+  </Match>
+  <Match>
+    <Bug pattern="DM_GC,EI_EXPOSE_REP2"/>
+  </Match>
+  <Match>
+    <Class name="~.*\.*Test"/>
+    <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD, HSC_HUGE_SHARED_STRING_CONSTANT"/>
+  </Match>
+  <Match>
+    <Class name="~.*\.*JsonSamples"/>
+    <Bug pattern="HSC_HUGE_SHARED_STRING_CONSTANT"/>
+  </Match>
+  <Match>
+    <Class name="~.*\.*\$\$Factory"/>
+    <Bug pattern="DLS_DEAD_LOCAL_STORE"/>
+  </Match>
+</FindBugsFilter>

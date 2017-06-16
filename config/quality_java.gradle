@@ -1,0 +1,13 @@
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+
+findbugs {
+  ignoreFailures = false
+  excludeFilter = file("${findbugs_excludeFile}")
+}
+
+pmd {
+  toolVersion = '5.5.0'
+  ruleSetFiles = files("${pmd_rulesetFile}")
+}

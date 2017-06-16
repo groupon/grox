@@ -1,0 +1,43 @@
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+
+task findbugs(type: FindBugs) {
+  ignoreFailures = false
+  effort = "max"
+  reportLevel = "high"
+  excludeFilter = new File("${findbugs_excludeFile}")
+  classes = files("$project.buildDir/intermediates/classes")
+
+  source "src"
+  include '**/*.java'
+  exclude '**/gen/**'
+
+  reports {
+    xml {
+      destination "$project.buildDir/reports/findbugs/findbugs.xml"
+      xml.withMessages true
+    }
+  }
+
+  classpath = files()
+}
+
+pmd {
+  toolVersion = '5.5.0'
+  ruleSetFiles = files("${pmd_rulesetFile}")
+}
+
+task pmd(type: Pmd) {
+  ruleSets = [] //"java-basic", "java-braces", "java-strings"
+  ignoreFailures = false
+
+  source "src"
+  includes = ['**/*.java']
+  excludes = ['**/gen/**', 'src/test/**', '**/v2/db/**', '**/nst/**', '**/UpgradeManager*']
+  reports {
+    xml.enabled = true
+    html.enabled = true
+  }
+}
+
+check.dependsOn 'findbugs', 'pmd'
