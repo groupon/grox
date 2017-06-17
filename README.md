@@ -39,7 +39,7 @@ store.dispatch( oldState -> oldState + " Grox");
 
 A command example
 ```java
-public class RefreshResultCommand implements Event {
+public class RefreshResultCommand implements Command {
  @Override
   public Observable<Action> actions() {
     return getResultFromServer() //via retrofit
@@ -52,12 +52,26 @@ public class RefreshResultCommand implements Event {
 }
 
 //then use your command via Rx + RxBinding
-subscription.add(
+subscriptions.add(
         clicks(button)
             .map(click -> new RefreshResultCommand())
-            .flatMap(Event::actions)
+            .flatMap(Command::actions)
             .subscribe(store::dispatch));
 ```
+
+Note that such a command should be unsubscribed from when the UI element (e.g. an activity) containing the button `button` will no longer be alive. Otherwise, the Rx chain would leak it.
+
+However, if you preserve your store accross configuration changes (using ViewModels, Dependency Injection (Toothpick/Dagger), retained fragments, etc.), you can also execute commands independently from the lifecycle of the UI:
+
+```java
+//then use your command via Rx + RxBinding
+subscriptions.add(
+        clicks(button)
+            .subscribe(click -> new RefreshResultCommand()
+                                .actions()
+                                .subscribe(store::dispatch)));
+```     
+In this case, only the outer chain needs to be unsubcribed from when the UI elements are not alive anymore, the inner chain will be preserved during rotation and udpate the store even during a configuration change (e.g. a rotation), and the UI will display the latest when connecting to the store when the rotation is complete. A fine grained management of resources would unsubscribe from the inner chain when the store is not alive anymore.
 
 Browse [Grox sample](grox-sample-rx/src/main/java/com/groupon/grox/sample) for more details.
 
