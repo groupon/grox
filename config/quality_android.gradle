@@ -33,7 +33,7 @@ task pmd(type: Pmd) {
 
   source "src"
   includes = ['**/*.java']
-  excludes = ['**/gen/**', 'src/test/**', '**/v2/db/**', '**/nst/**', '**/UpgradeManager*']
+  excludes = ['**/gen/**', 'src/test/**']
   reports {
     xml.enabled = true
     html.enabled = true
