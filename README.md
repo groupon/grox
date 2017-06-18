@@ -61,7 +61,7 @@ subscriptions.add(
 
 Note that such a command should be unsubscribed from when the UI element (e.g. an activity) containing the button `button` will no longer be alive. Otherwise, the Rx chain would leak it.
 
-However, if you preserve your store accross configuration changes (using ViewModels, Dependency Injection (Toothpick/Dagger), retained fragments, etc.), you can also execute commands independently from the lifecycle of the UI:
+However, if you preserve your store accross configuration changes (using ViewModels, Dependency Injection (Toothpick/Dagger), retained fragments, etc.), you can also execute commands independently of the lifecycle of the UI:
 
 ```java
 //then use your command via Rx + RxBinding
