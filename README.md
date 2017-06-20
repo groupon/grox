@@ -95,7 +95,7 @@ The main features of Grox are:
 * Grox can be used with the [Android Arch components](https://developer.android.com/arch), or without them.
 
 ## Links
-* CI: TODO
+* [Travis CI](https://travis-ci.org/groupon/grox)
 
 ## Credits 
 The following people have been active contributors to the first version of Grox:
