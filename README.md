@@ -1,7 +1,7 @@
 # Grox
 Grox helps to maintain the state of Java / Android apps. 
 
-<a alt="Build Status" href="https://travis-ci.org/stephanenicolas/toothpick">
+<a alt="Build Status" href="https://travis-ci.org/groupon/grox">
       <img src="https://travis-ci.org/groupon/grox.svg?branch=master"/></a>
       
 ![Grox Overview](assets/grox-overview.png)
