@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'me.tatarka.retrolambda'
 apply from: rootProject.file("${quality_gradle_java_file}")
 apply plugin: 'com.github.hierynomus.license'
+apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 dependencies {
   compile deps.findbugs
