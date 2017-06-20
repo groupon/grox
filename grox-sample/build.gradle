@@ -38,5 +38,6 @@ license {
   mapping {
     java = 'SLASHSTAR_STYLE'
   }
+  exclude "**/*.xml"
 }
 
