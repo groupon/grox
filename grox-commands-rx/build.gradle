@@ -19,7 +19,7 @@ task licenseFormatSrc (type:nl.javadude.gradle.plugins.license.License) {
 licenseFormat.dependsOn licenseFormatSrc
 
 license {
-  header = rootProject.file('LICENSE')
+  header = rootProject.file('config/license/LICENSE')
   mapping {
     java = 'SLASHSTAR_STYLE'
   }
