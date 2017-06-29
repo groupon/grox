@@ -29,7 +29,7 @@ import rx.Observable;
  */
 public abstract class SingleActionCommand<STATE> implements Action<STATE>, Command {
   @Override
-  public final Observable<Action> actions() {
+  public final Observable<? extends Action> actions() {
     return just(this);
   }
 }

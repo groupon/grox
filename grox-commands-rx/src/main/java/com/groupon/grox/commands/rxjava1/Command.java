@@ -24,5 +24,5 @@ import rx.Observable;
  * system, etc.
  */
 public interface Command {
-  Observable<Action> actions();
+  Observable<? extends Action> actions();
 }
