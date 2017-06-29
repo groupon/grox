@@ -41,7 +41,7 @@ public class RefreshColorCommand implements Command {
 
   //don't forget to convert errors in actions
   @Override
-  public Observable<Action> actions() {
+  public Observable<? extends Action> actions() {
     return getColorFromServer()
         .subscribeOn(io())
         .map(ChangeColorAction::new)
