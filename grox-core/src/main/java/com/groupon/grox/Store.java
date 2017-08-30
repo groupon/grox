@@ -170,11 +170,12 @@ public class Store<STATE> {
     @Override
     public void intercept(Chain<STATE> chain) {
       chain.proceed(chain.action());
+      final STATE stateCopy = state;
       for (Iterator<StateChangeListener<STATE>> iterator = stateChangeListeners.iterator();
           iterator.hasNext();
           ) {
         StateChangeListener<STATE> stateChangeListener = iterator.next();
-        stateChangeListener.onStateChanged(state);
+        stateChangeListener.onStateChanged(stateCopy);
       }
     }
   }
