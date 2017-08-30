@@ -32,6 +32,7 @@ import static org.junit.Assert.fail;
 import com.groupon.grox.Store.Middleware;
 import com.groupon.grox.Store.StateChangeListener;
 import org.easymock.Capture;
+import org.easymock.IAnswer;
 import org.junit.Test;
 
 public class StoreTest {
@@ -258,5 +259,89 @@ public class StoreTest {
 
     //THEN
     verify(mockMiddleWare);
+  }
+
+  @Test
+  //TDD for issue #12: https://github.com/groupon/grox/issues/12
+  public void testChainState_doesNotExposeStateChangesTooEarly() {
+    //GIVEN
+    Store<Integer> store = new Store<>(0);
+    StateChangeListener<Integer> mockListener0 = createMock(StateChangeListener.class);
+    StateChangeListener<Integer> mockListener1 = createMock(StateChangeListener.class);
+
+    mockListener0.onStateChanged(0);
+    expectLastCall();
+
+    mockListener1.onStateChanged(0);
+    expectLastCall();
+
+    mockListener0.onStateChanged(-1);
+    expectLastCall()
+        .andAnswer(
+            new IAnswer<Void>() {
+              @Override
+              public Void answer() throws Throwable {
+                store.dispatch(integer -> 1);
+                return null;
+              }
+            });
+    mockListener1.onStateChanged(-1);
+    expectLastCall();
+
+    mockListener0.onStateChanged(1);
+    expectLastCall();
+
+    mockListener1.onStateChanged(1);
+    expectLastCall();
+
+    replay(mockListener0, mockListener1);
+
+    //WHEN
+    store.subscribe(mockListener0);
+    store.subscribe(mockListener1);
+
+    store.dispatch(i -> -1);
+
+    //THEN
+    verify(mockListener0, mockListener1);
+  }
+
+  @Test
+  //TDD for issue #12: https://github.com/groupon/grox/issues/13
+  public void testStore_shouldQueueActions() {
+    //GIVEN
+    Store<Integer> store = new Store<>(0);
+    StateChangeListener<Integer> mockListener0 = createStrictMock(StateChangeListener.class);
+    StateChangeListener<Integer> mockListener1 = createStrictMock(StateChangeListener.class);
+
+    mockListener0.onStateChanged(0);
+
+    mockListener1.onStateChanged(0);
+
+    mockListener0.onStateChanged(-1);
+    expectLastCall()
+        .andAnswer(
+            new IAnswer<Void>() {
+              @Override
+              public Void answer() throws Throwable {
+                store.dispatch(integer -> 1);
+                return null;
+              }
+            });
+    mockListener1.onStateChanged(-1);
+
+    mockListener0.onStateChanged(1);
+    mockListener1.onStateChanged(1);
+
+    replay(mockListener0, mockListener1);
+
+    //WHEN
+    store.subscribe(mockListener0);
+    store.subscribe(mockListener1);
+
+    store.dispatch(i -> -1);
+
+    //THEN
+    verify(mockListener0, mockListener1);
   }
 }
