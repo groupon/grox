@@ -24,6 +24,3 @@ license {
     java = 'SLASHSTAR_STYLE'
   }
 }
-
-group 'com.groupon.grox'
-version '1.0.0-SNAPSHOT'
