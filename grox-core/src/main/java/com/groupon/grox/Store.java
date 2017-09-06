@@ -46,11 +46,12 @@ public class Store<STATE> {
   /** The list of internal middle wares. */
   private final List<Middleware<STATE>> middlewares = new ArrayList<>();
   /** The list of all state change listeners that will get notified of state changes. */
-  private List<StateChangeListener<STATE>> stateChangeListeners = new CopyOnWriteArrayList<>();
+  private final List<StateChangeListener<STATE>> stateChangeListeners =
+      new CopyOnWriteArrayList<>();
   /** Uses to queue the actions so that they are presented in order to subscribers. */
-  private Queue<Action<STATE>> actionQueue = new LinkedList<>();
+  private final Queue<Action<STATE>> actionQueue = new LinkedList<>();
   /** Internal state flag raised and lowered when dispatching. */
-  private AtomicBoolean isDispatching = new AtomicBoolean(false);
+  private final AtomicBoolean isDispatching = new AtomicBoolean(false);
 
   public Store(STATE initialState, Middleware<STATE>... middlewares) {
     this.state = initialState;
@@ -70,6 +71,8 @@ public class Store<STATE> {
    */
   public synchronized void dispatch(Action<STATE> action) {
     actionQueue.add(action);
+    //we still need an atomic boolean here, even though the method is
+    //synchronized, because we also use it to unsubscribe.
     if (isDispatching.get()) {
       return;
     }

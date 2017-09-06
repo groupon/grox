@@ -286,13 +286,10 @@ public class StoreTest {
               }
             });
     mockListener1.onStateChanged(-1);
-    expectLastCall();
 
     mockListener0.onStateChanged(1);
-    expectLastCall();
 
     mockListener1.onStateChanged(1);
-    expectLastCall();
 
     replay(mockListener0, mockListener1);
 
@@ -307,7 +304,7 @@ public class StoreTest {
   }
 
   @Test
-  //TDD for issue #12: https://github.com/groupon/grox/issues/13
+  //TDD for issue #13: https://github.com/groupon/grox/issues/13
   public void testStore_shouldQueueActions() {
     //GIVEN
     Store<Integer> store = new Store<>(0);
