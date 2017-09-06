@@ -19,8 +19,11 @@ import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Like Redux Stores, stores in grox are:
@@ -43,7 +46,12 @@ public class Store<STATE> {
   /** The list of internal middle wares. */
   private final List<Middleware<STATE>> middlewares = new ArrayList<>();
   /** The list of all state change listeners that will get notified of state changes. */
-  private List<StateChangeListener<STATE>> stateChangeListeners = new CopyOnWriteArrayList<>();
+  private final List<StateChangeListener<STATE>> stateChangeListeners =
+      new CopyOnWriteArrayList<>();
+  /** Uses to queue the actions so that they are presented in order to subscribers. */
+  private final Queue<Action<STATE>> actionQueue = new LinkedList<>();
+  /** Internal state flag raised and lowered when dispatching. */
+  private final AtomicBoolean isDispatching = new AtomicBoolean(false);
 
   public Store(STATE initialState, Middleware<STATE>... middlewares) {
     this.state = initialState;
@@ -62,7 +70,22 @@ public class Store<STATE> {
    * @see StateChangeListener
    */
   public synchronized void dispatch(Action<STATE> action) {
-    new RealMiddlewareChain<>(this, action, this.middlewares, 0).proceed(action);
+    actionQueue.add(action);
+    //we still need an atomic boolean here, even though the method is
+    //synchronized, because we also use it to unsubscribe.
+    if (isDispatching.get()) {
+      return;
+    }
+    emitSequentially();
+  }
+
+  private void emitSequentially() {
+    isDispatching.set(true);
+    while (!actionQueue.isEmpty()) {
+      Action<STATE> nextAction = actionQueue.poll();
+      new RealMiddlewareChain<>(this, nextAction, this.middlewares, 0).proceed(nextAction);
+    }
+    isDispatching.set(false);
   }
 
   /** @return the current state of the store. */
@@ -78,7 +101,10 @@ public class Store<STATE> {
    */
   public void subscribe(StateChangeListener<STATE> listener) {
     this.stateChangeListeners.add(listener);
+    isDispatching.set(true);
     listener.onStateChanged(getState());
+    isDispatching.set(false);
+    emitSequentially();
   }
 
   /**
