@@ -47,11 +47,6 @@ allprojects {
   }
 }
 
-subprojects { project ->
-  group = GROUP
-  version = VERSION_NAME
-}
-
 task clean(type: Delete) {
   delete rootProject.buildDir
 }
