@@ -1,12 +1,22 @@
 # Grox
 Grox helps to maintain the state of Java / Android apps. 
 
-<a alt="Build Status" href="https://travis-ci.org/groupon/grox">
+<table style="border:0px">
+  <tr  style="border:0px">
+    <td width="125" style="border:0px">
+      <img src="https://raw.github.com/groupon/grox/master/assets/grox-logo.png" width="125px" /> 
+    </td>
+    <td  style="border:0px">
+      <a alt="Build Status" href="https://travis-ci.org/groupon/grox">
       <img src="https://travis-ci.org/groupon/grox.svg?branch=master"/></a>
-      
-![Grox Overview](assets/grox-overview.png)
+      <br/>
+    </td>
+  </tr>
+</table>
 
 ## Understanding Grox
+
+![Grox Overview](assets/grox-overview.png)
 
 ### Video
 [![Grox video](https://i.ytimg.com/vi/RTSJy_MBur0/2.jpg)](https://youtu.be/RTSJy_MBur0)
