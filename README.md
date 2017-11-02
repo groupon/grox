@@ -107,6 +107,10 @@ The main features of Grox are:
 ## Links
 * [Travis CI](https://travis-ci.org/groupon/grox)
 
+## Conferences, talks & articles
+
+* [Grox: The Art of the State](https://medium.com/groupon-eng/grox-the-art-of-the-state-b5223f48d696) 
+
 ## Credits 
 The following people have been active contributors to the first version of Grox:
 * Shaheen Ghiassy
