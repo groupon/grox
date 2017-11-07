@@ -1,5 +1,8 @@
 include ':grox-core'
 include ':grox-core-rx'
+include ':grox-core-rx2'
 include ':grox-commands-rx'
+include ':grox-commands-rx2'
 include ':grox-sample'
 include ':grox-sample-rx'
+include ':grox-sample-rx2'
