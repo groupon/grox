@@ -33,7 +33,7 @@ import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 public class MainActivity extends AppCompatActivity {
 
   private Store<State> store = new Store<>(State.empty());
-  private CompositeDisposable disposable = new CompositeDisposable();
+  private CompositeDisposable disposables = new CompositeDisposable();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     final View button = findViewById(R.id.button);
 
-    disposable.add(states(store).observeOn(mainThread()).subscribe(this::updateUI));
+    disposables.add(states(store).observeOn(mainThread()).subscribe(this::updateUI));
 
-    disposable.add(
+    disposables.add(
         clicks(button)
             .map(click -> new RefreshColorCommand())
             .flatMap(Command::actions)
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onDestroy() {
-    disposable.dispose();
+    disposables.dispose();
     super.onDestroy();
   }
 }

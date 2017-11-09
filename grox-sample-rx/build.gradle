@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply from: rootProject.file("${quality_gradle_android_file}")
 apply plugin: 'com.github.hierynomus.license'
 

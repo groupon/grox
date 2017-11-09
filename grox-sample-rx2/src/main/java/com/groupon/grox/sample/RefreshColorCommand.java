@@ -36,7 +36,7 @@ import static io.reactivex.schedulers.Schedulers.io;
 public class RefreshColorCommand implements Command {
   private static final int SEED = 7;
   private static final int ERROR_RATE = 5;
-  public static final int LATENCY_IN_MS = 1000;
+  private static final int LATENCY_IN_MS = 1000;
   private static Random random = new Random(SEED);
   private static final int MAX_COLOR = 256;
   private static final String ERROR_MSG = "Error. Please retry.";

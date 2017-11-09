@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply from: rootProject.file("${quality_gradle_android_file}")
 apply plugin: 'com.github.hierynomus.license'
 
@@ -9,12 +8,13 @@ android {
   defaultConfig {
     minSdkVersion versions.minSdk
   }
+
+  lintOptions {
+    abortOnError false
+  }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
-  }
-  lintOptions {
-    abortOnError false
   }
 }
 
@@ -23,7 +23,6 @@ dependencies {
   compile deps.findbugs
   compile deps.support.compat
   compile deps.support.design
-
   testCompile deps.junit
   testCompile deps.easymock
 }
