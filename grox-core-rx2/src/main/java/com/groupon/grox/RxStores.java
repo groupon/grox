@@ -18,7 +18,11 @@ package com.groupon.grox;
 import io.reactivex.Observable;
 
 /** A helper class to make it easier to use {@link Store} with Rx 2. */
-public class RxStores {
+public final class RxStores {
+
+  private RxStores() {
+    throw new AssertionError();
+  }
 
   /**
    * Creates an observable of states out of a store. It is possible to call this method multiple

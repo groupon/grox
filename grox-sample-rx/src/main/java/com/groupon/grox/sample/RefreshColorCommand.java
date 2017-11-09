@@ -35,7 +35,7 @@ public class RefreshColorCommand implements Command {
   private static final int SEED = 7;
   private static final int ERROR_RATE = 5;
   private static final int LATENCY_IN_MS = 1000;
-  private static Random random = new Random(SEED);
+  private static final Random random = new Random(SEED);
   private static final int MAX_COLOR = 256;
   private static final String ERROR_MSG = "Error. Please retry.";
 

@@ -20,8 +20,8 @@ buildscript {
                                 'design': "com.android.support:design:${versions.supportLibrary}",],]
 
   repositories {
-    jcenter()
     google()
+    jcenter()
     maven {
       url "https://plugins.gradle.org/m2/"
     }

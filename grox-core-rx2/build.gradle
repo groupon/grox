@@ -11,7 +11,7 @@ apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 dependencies {
   compile project(':grox-core')
-  compile deps.findbugs
+  compileOnly deps.findbugs
   compile deps.rxjava2
 
   testCompile deps.junit

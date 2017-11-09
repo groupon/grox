@@ -30,8 +30,8 @@ import rx.subscriptions.CompositeSubscription;
 
 public class MainActivity extends AppCompatActivity {
 
-  private Store<State> store = new Store<>(State.empty());
-  private CompositeSubscription subscription = new CompositeSubscription();
+  private final Store<State> store = new Store<>(State.empty());
+  private final CompositeSubscription subscription = new CompositeSubscription();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

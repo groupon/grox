@@ -15,25 +15,23 @@
  */
 package com.groupon.grox.sample;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.TextView;
-
-import com.groupon.grox.Store;
-import com.groupon.grox.commands.rxjava2.Command;
-import com.groupon.grox.sample.rx2.R;
-
-import io.reactivex.disposables.CompositeDisposable;
-
 import static com.groupon.grox.RxStores.states;
 import static com.jakewharton.rxbinding2.view.RxView.clicks;
 import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
+import com.groupon.grox.Store;
+import com.groupon.grox.commands.rxjava2.Command;
+import com.groupon.grox.sample.rx2.R;
+import io.reactivex.disposables.CompositeDisposable;
+
 public class MainActivity extends AppCompatActivity {
 
-  private Store<State> store = new Store<>(State.empty());
-  private CompositeDisposable disposables = new CompositeDisposable();
+  private final Store<State> store = new Store<>(State.empty());
+  private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     final View button = findViewById(R.id.button);
 
-    disposables.add(states(store).observeOn(mainThread()).subscribe(this::updateUI));
+    compositeDisposable.add(states(store).observeOn(mainThread()).subscribe(this::updateUI));
 
-    disposables.add(
+    compositeDisposable.add(
         clicks(button)
             .map(click -> new RefreshColorCommand())
             .flatMap(Command::actions)
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onDestroy() {
-    disposables.dispose();
+    compositeDisposable.dispose();
     super.onDestroy();
   }
 }
