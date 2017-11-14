@@ -89,10 +89,10 @@ Browse [Grox sample](grox-sample-rx/src/main/java/com/groupon/grox/sample) for m
 
 ```groovy
     //note that Grox is also available without Rx dependencies
-    compile 'com.groupon.grox:grox-core-rx:x.y.z'
+    implementation 'com.groupon.grox:grox-core-rx:x.y.z'
     //Grox commands artifacts do depend on Rx (1 or 2)
-    compile 'com.groupon.grox:grox-commands-rx:x.y.z'
-    compile 'com.groupon.grox:grox-commands-rx2:x.y.z'
+    implementation 'com.groupon.grox:grox-commands-rx:x.y.z'
+    implementation 'com.groupon.grox:grox-commands-rx2:x.y.z'
 ```
 
 ## Main features

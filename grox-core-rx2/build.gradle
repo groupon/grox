@@ -4,18 +4,18 @@ buildscript {
   }
 }
 
-apply plugin: 'java'
+apply plugin: 'java-library'
 apply from: rootProject.file("${quality_gradle_java_file}")
 apply plugin: 'com.github.hierynomus.license'
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 dependencies {
-  compile project(':grox-core')
+  api (project(':grox-core'))
   compileOnly deps.findbugs
-  compile deps.rxjava2
+  implementation deps.rxjava2
 
-  testCompile deps.junit
-  testCompile deps.easymock
+  testImplementation deps.junit
+  testImplementation deps.easymock
 }
 
 task licenseFormatSrc (type:nl.javadude.gradle.plugins.license.License) {

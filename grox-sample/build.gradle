@@ -19,12 +19,12 @@ android {
 }
 
 dependencies {
-  compile project(':grox-core')
-  compile deps.findbugs
-  compile deps.support.compat
-  compile deps.support.design
-  testCompile deps.junit
-  testCompile deps.easymock
+  implementation project(':grox-core')
+  compileOnly deps.findbugs
+  implementation deps.support.compat
+  implementation deps.support.design
+  testImplementation deps.junit
+  testImplementation deps.easymock
 }
 
 task licenseFormatSrc (type:nl.javadude.gradle.plugins.license.License) {

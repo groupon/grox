@@ -6,8 +6,8 @@ apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 dependencies {
   compileOnly deps.findbugs
 
-  testCompile deps.junit
-  testCompile deps.easymock
+  testImplementation deps.junit
+  testImplementation deps.easymock
 }
 
 task licenseFormatSrc (type:nl.javadude.gradle.plugins.license.License) {
