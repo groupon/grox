@@ -4,7 +4,7 @@ apply from: rootProject.file('config/hooks/install-git-hooks.gradle')
 buildscript {
   ext.versions = ['minSdk'        : 14,
                   'compileSdk'    : 25,
-                  'buildTools'    : '25.0.2',
+                  'buildTools'    : '26.0.2',
 
                   'supportLibrary': '25.3.1',]
 
@@ -12,21 +12,22 @@ buildscript {
               junit          : 'junit:junit:4.12',
               easymock       : 'org.easymock:easymock:3.4',
               rxjava         : 'io.reactivex:rxjava:1.2.7',
+              rxjava2        : 'io.reactivex.rxjava2:rxjava:2.1.6',
               rxbinding      : 'com.jakewharton.rxbinding:rxbinding:1.0.1',
-              retrolambda    : 'me.tatarka:gradle-retrolambda:3.6.1',
+              rxbinding2     : 'com.jakewharton.rxbinding2:rxbinding:2.0.0',
 
               'support'      : ['compat': "com.android.support:support-compat:${versions.supportLibrary}",
                                 'design': "com.android.support:design:${versions.supportLibrary}",],]
 
   repositories {
+    google()
     jcenter()
     maven {
       url "https://plugins.gradle.org/m2/"
     }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.1'
-    classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+    classpath 'com.android.tools.build:gradle:3.0.0'
     classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.14.0"
   }
 }

@@ -1,18 +1,12 @@
-buildscript {
-  repositories {
-    jcenter()
-  }
-}
-
 apply plugin: 'java-library'
 apply from: rootProject.file("${quality_gradle_java_file}")
 apply plugin: 'com.github.hierynomus.license'
 apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 dependencies {
-  api (project(':grox-core'))
+  api project(':grox-core')
   compileOnly deps.findbugs
-  implementation deps.rxjava
+  implementation deps.rxjava2
 
   testImplementation deps.junit
   testImplementation deps.easymock

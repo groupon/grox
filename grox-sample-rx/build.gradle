@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
 apply from: rootProject.file("${quality_gradle_android_file}")
 apply plugin: 'com.github.hierynomus.license'
 
@@ -19,17 +18,17 @@ android {
 }
 
 dependencies {
-  compile project(':grox-core-rx')
-  compile project(':grox-commands-rx')
-  compile deps.findbugs
+  implementation project(':grox-core-rx')
+  implementation project(':grox-commands-rx')
+  compileOnly deps.findbugs
 
-  compile deps.rxjava
-  compile deps.rxbinding
-  compile deps.support.compat
-  compile deps.support.design
+  implementation deps.rxjava
+  implementation deps.rxbinding
+  implementation deps.support.compat
+  implementation deps.support.design
 
-  testCompile deps.junit
-  testCompile deps.easymock
+  testImplementation deps.junit
+  testImplementation deps.easymock
 }
 
 task licenseFormatSrc (type:nl.javadude.gradle.plugins.license.License) {

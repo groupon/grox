@@ -12,7 +12,7 @@ apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 dependencies {
   api (project(':grox-core'))
   compileOnly deps.findbugs
-  implementation deps.rxjava
+  implementation deps.rxjava2
 
   testImplementation deps.junit
   testImplementation deps.easymock

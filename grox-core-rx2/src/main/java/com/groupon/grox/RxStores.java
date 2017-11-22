@@ -15,9 +15,9 @@
  */
 package com.groupon.grox;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
-/** A helper class to make it easier to use {@link Store} with Rx 1. */
+/** A helper class to make it easier to use {@link Store} with Rx 2. */
 public final class RxStores {
 
   private RxStores() {

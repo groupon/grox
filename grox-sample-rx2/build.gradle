@@ -8,21 +8,25 @@ android {
   defaultConfig {
     minSdkVersion versions.minSdk
   }
-
-  lintOptions {
-    abortOnError false
-  }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8
     targetCompatibility JavaVersion.VERSION_1_8
   }
+  lintOptions {
+    abortOnError false
+  }
 }
 
 dependencies {
-  implementation project(':grox-core')
+  implementation project(':grox-core-rx2')
+  implementation project(':grox-commands-rx2')
   compileOnly deps.findbugs
+
+  implementation deps.rxjava2
+  implementation deps.rxbinding2
   implementation deps.support.compat
   implementation deps.support.design
+
   testImplementation deps.junit
   testImplementation deps.easymock
 }

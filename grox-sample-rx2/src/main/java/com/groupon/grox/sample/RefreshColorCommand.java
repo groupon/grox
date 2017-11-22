@@ -15,17 +15,17 @@
  */
 package com.groupon.grox.sample;
 
-import static android.graphics.Color.*;
-import static rx.Observable.error;
-import static rx.Observable.fromCallable;
-import static rx.Observable.just;
-import static rx.schedulers.Schedulers.io;
+import static android.graphics.Color.rgb;
+import static io.reactivex.Observable.error;
+import static io.reactivex.Observable.fromCallable;
+import static io.reactivex.Observable.just;
+import static io.reactivex.schedulers.Schedulers.io;
 
 import com.groupon.grox.Action;
-import com.groupon.grox.commands.rxjava1.Command;
+import com.groupon.grox.commands.rxjava2.Command;
+import io.reactivex.Observable;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import rx.Observable;
 
 /**
  * Simulates a network call to obtain the color. This command will first ask to refresh the UI, then

@@ -16,22 +16,22 @@
 package com.groupon.grox.sample;
 
 import static com.groupon.grox.RxStores.states;
-import static com.jakewharton.rxbinding.view.RxView.clicks;
-import static rx.android.schedulers.AndroidSchedulers.mainThread;
+import static com.jakewharton.rxbinding2.view.RxView.clicks;
+import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 import com.groupon.grox.Store;
-import com.groupon.grox.commands.rxjava1.Command;
-import com.groupon.grox.sample.rx.R;
-import rx.subscriptions.CompositeSubscription;
+import com.groupon.grox.commands.rxjava2.Command;
+import com.groupon.grox.sample.rx2.R;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class MainActivity extends AppCompatActivity {
 
   private final Store<State> store = new Store<>(State.empty());
-  private final CompositeSubscription subscription = new CompositeSubscription();
+  private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     final View button = findViewById(R.id.button);
 
-    subscription.add(states(store).observeOn(mainThread()).subscribe(this::updateUI));
+    compositeDisposable.add(states(store).observeOn(mainThread()).subscribe(this::updateUI));
 
-    subscription.add(
+    compositeDisposable.add(
         clicks(button)
             .map(click -> new RefreshColorCommand())
             .flatMap(Command::actions)
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onDestroy() {
-    subscription.unsubscribe();
+    compositeDisposable.dispose();
     super.onDestroy();
   }
 }
