@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.1.1] - 2017-11-22
+### Changed
+- Add maven badge to README (#21)
+- Fix snapshot upload mechanism for Travis. (#23) `Thanks to Mihaly Nagy`
+- Add RxJava2 support (#26)
+
 ## [1.1.0] - 2017-09-07
 ### Changed
 - Use KeepAChangelog v1.0.0 for CHANGELOG.md. (#18)
