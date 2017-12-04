@@ -27,9 +27,9 @@ import rx.Subscription;
  * @param <STATE> the class of the the state of the store.
  */
 final class StoreOnSubscribe<STATE> implements Observable.OnSubscribe<STATE> {
-  private final Store store;
+  private final Store<STATE> store;
 
-  StoreOnSubscribe(Store store) {
+  StoreOnSubscribe(Store<STATE> store) {
     this.store = store;
   }
 

@@ -27,9 +27,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @param <STATE> the class of the the state of the store.
  */
 final class StoreOnSubscribe<STATE> implements ObservableOnSubscribe<STATE> {
-  private final Store store;
+  private final Store<STATE> store;
 
-  StoreOnSubscribe(Store store) {
+  StoreOnSubscribe(Store<STATE> store) {
     this.store = store;
   }
 

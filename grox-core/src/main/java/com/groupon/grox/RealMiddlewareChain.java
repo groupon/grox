@@ -56,7 +56,7 @@ final class RealMiddlewareChain<STATE> implements Store.Middleware.Chain<STATE> 
   }
 
   @Override
-  public void proceed(Action action) {
+  public void proceed(Action<STATE> action) {
     if (index >= middlewares.size()) {
       throw new AssertionError();
     }
