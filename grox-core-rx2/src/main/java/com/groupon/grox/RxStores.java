@@ -39,6 +39,6 @@ public final class RxStores {
     if (store == null) {
       throw new IllegalArgumentException("Store is null");
     }
-    return Observable.create(new StoreOnSubscribe<STATE>(store));
+    return Observable.create(new StoreOnSubscribe<>(store));
   }
 }
