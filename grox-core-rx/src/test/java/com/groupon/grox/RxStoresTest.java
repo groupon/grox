@@ -33,7 +33,7 @@ public class RxStoresTest {
   public void states_should_observeInitialState() {
     //GIVEN
     Store<Integer> store = new Store<>(0);
-    TestSubscriber testSubscriber = new TestSubscriber();
+    TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
 
     //WHEN
     states(store).subscribe(testSubscriber);

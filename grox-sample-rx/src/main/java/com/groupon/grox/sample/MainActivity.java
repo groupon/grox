@@ -21,6 +21,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.groupon.grox.Store;
@@ -39,13 +40,17 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     final View button = findViewById(R.id.button);
 
-    subscription.add(states(store).observeOn(mainThread()).subscribe(this::updateUI));
+    subscription.add(states(store).observeOn(mainThread()).subscribe(this::updateUI, this::doLog));
 
     subscription.add(
         clicks(button)
             .map(click -> new RefreshColorCommand())
             .flatMap(Command::actions)
-            .subscribe(store::dispatch));
+            .subscribe(store::dispatch, this::doLog));
+  }
+
+  private void doLog(Throwable throwable) {
+    Log.d("Grox", "An error occurred in a Grox chain.", throwable);
   }
 
   private void updateUI(State newState) {

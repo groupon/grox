@@ -18,7 +18,6 @@ package com.groupon.grox;
 import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -53,6 +52,7 @@ public class Store<STATE> {
   /** Internal state flag raised and lowered when dispatching. */
   private final AtomicBoolean isDispatching = new AtomicBoolean(false);
 
+  @SafeVarargs
   public Store(STATE initialState, Middleware<STATE>... middlewares) {
     this.state = initialState;
     this.middlewares.add(new NotifySubscribersMiddleware());
@@ -112,6 +112,7 @@ public class Store<STATE> {
    *
    * @param listener the listener to be removed.
    */
+  @SuppressWarnings("WeakerAccess")
   public void unsubscribe(StateChangeListener<STATE> listener) {
     this.stateChangeListeners.remove(listener);
   }
@@ -134,7 +135,7 @@ public class Store<STATE> {
      * call {@link Action#newState(Object)}. </br> Hence, a middle ware can do things before the
      * rest of the middle wares are executed (and the action is executed) and after the rest of the
      * middle wares are executed (and the action is executed). </br> Middle wares are added to a
-     * store at construction time, see {@link #Store(Object, Middleware[])}.
+     * store at construction time, see {@link #Store(Object, Middleware[])} .
      *
      * @param chain the chain of all middle wares for the store associated to this middleware.
      */
@@ -143,7 +144,7 @@ public class Store<STATE> {
     /**
      * Represents the linked list of all middle wares int the store. The order of the middle ware
      * corresponds to the order in which the middle wares are passed to the store at construction
-     * time. See {@link #Store(Object, Middleware[])}.
+     * time. See {@link #Store(Object, Middleware[])}
      *
      * @param <STATE> the class of the state.
      */
