@@ -18,6 +18,7 @@ package com.groupon.grox;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Cancellable;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -38,30 +39,8 @@ final class StoreOnSubscribe<STATE> implements ObservableOnSubscribe<STATE> {
 
     //the internal listener to the store.
     Store.StateChangeListener<STATE> listener =
-        state -> {
-          if (!emitter.isDisposed()) {
-            emitter.onNext(state);
-          }
-        };
-
-    emitter.setDisposable(
-        new Disposable() {
-
-          private final AtomicBoolean unsubscribed = new AtomicBoolean();
-
-          @Override
-          public void dispose() {
-            if (unsubscribed.compareAndSet(false, true)) {
-              store.unsubscribe(listener);
-            }
-          }
-
-          @Override
-          public boolean isDisposed() {
-            return unsubscribed.get();
-          }
-        });
-
+        emitter::onNext;
+    emitter.setCancellable(() -> store.unsubscribe(listener));
     store.subscribe(listener);
   }
 }

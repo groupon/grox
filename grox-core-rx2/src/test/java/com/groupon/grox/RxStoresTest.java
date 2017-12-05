@@ -33,7 +33,7 @@ public class RxStoresTest {
   public void states_should_observeInitialState() {
     //GIVEN
     Store<Integer> store = new Store<>(0);
-    TestObserver testSubscriber = new TestObserver();
+    TestObserver<Integer> testSubscriber = new TestObserver<>();
 
     //WHEN
     states(store).subscribe(testSubscriber);
@@ -47,7 +47,7 @@ public class RxStoresTest {
   public void states_should_observeStateChanges() {
     //GIVEN
     Store<Integer> store = new Store<>(0);
-    TestObserver testSubscriber = new TestObserver();
+    TestObserver<Integer> testSubscriber = new TestObserver<>();
     states(store).subscribe(testSubscriber);
 
     //WHEN
@@ -62,7 +62,7 @@ public class RxStoresTest {
   public void states_should_stopObservingStateChanges() {
     //GIVEN
     Store<Integer> store = new Store<>(0);
-    TestObserver testSubscriber = new TestObserver();
+    TestObserver<Integer> testSubscriber = new TestObserver<>();
     states(store).subscribe(testSubscriber);
 
     //WHEN
