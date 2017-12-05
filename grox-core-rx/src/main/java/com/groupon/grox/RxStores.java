@@ -15,6 +15,7 @@
  */
 package com.groupon.grox;
 
+import rx.Emitter.BackpressureMode;
 import rx.Observable;
 
 /** A helper class to make it easier to use {@link Store} with Rx 1. */
@@ -39,6 +40,6 @@ public final class RxStores {
     if (store == null) {
       throw new IllegalArgumentException("Store is null");
     }
-    return Observable.create(new StoreOnSubscribe<>(store));
+    return Observable.create(new StoreOnSubscribe<>(store), BackpressureMode.ERROR);
   }
 }

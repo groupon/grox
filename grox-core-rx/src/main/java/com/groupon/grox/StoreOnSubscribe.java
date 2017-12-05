@@ -15,10 +15,9 @@
  */
 package com.groupon.grox;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
+import rx.Emitter;
+import rx.functions.Action1;
+import rx.functions.Cancellable;
 
 /**
  * Internal subscriber to a store's obersvable. It basically allows to unsubscribe from the store
@@ -26,7 +25,7 @@ import rx.Subscription;
  *
  * @param <STATE> the class of the the state of the store.
  */
-final class StoreOnSubscribe<STATE> implements Observable.OnSubscribe<STATE> {
+final class StoreOnSubscribe<STATE> implements Action1<Emitter<STATE>> {
   private final Store<STATE> store;
 
   StoreOnSubscribe(Store<STATE> store) {
@@ -34,35 +33,13 @@ final class StoreOnSubscribe<STATE> implements Observable.OnSubscribe<STATE> {
   }
 
   @Override
-  public void call(final Subscriber<? super STATE> subscriber) {
+  public void call(Emitter<STATE> stateEmitter) {
 
     //the internal listener to the store.
     Store.StateChangeListener<STATE> listener =
-        new Store.StateChangeListener<STATE>() {
-          @Override
-          public void onStateChanged(STATE state) {
-            if (!subscriber.isUnsubscribed()) {
-              subscriber.onNext(state);
-            }
-          }
-        };
+        stateEmitter::onNext;
 
-    subscriber.add(
-        new Subscription() {
-          private final AtomicBoolean unsubscribed = new AtomicBoolean();
-
-          @Override
-          public final boolean isUnsubscribed() {
-            return unsubscribed.get();
-          }
-
-          @Override
-          public final void unsubscribe() {
-            if (unsubscribed.compareAndSet(false, true)) {
-              store.unsubscribe(listener);
-            }
-          }
-        });
+    stateEmitter.setCancellation(() -> store.unsubscribe(listener));
 
     store.subscribe(listener);
   }
