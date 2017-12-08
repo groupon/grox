@@ -41,6 +41,7 @@ allprojects {
     // plugin for all (checkstyle, pmd and findbugs)
     quality_gradle_java_file = "config/quality_java.gradle"
     quality_gradle_android_file = "config/quality_android.gradle"
+    jacoco_gradle_java_file = "config/jacoco_java.gradle"
 
     // config files
     pmd_rulesetFile = "${project.rootDir}/config/pmd/pmd-ruleset.xml"
@@ -51,6 +52,44 @@ allprojects {
 subprojects { project ->
   group = GROUP
   version = VERSION_NAME
+}
+
+apply plugin: 'jacoco'
+
+//https://gist.github.com/aalmiray/e6f54aa4b3803be0bcac
+task jacocoTestReport(type: JacocoReport) {
+  sourceDirectories = files()
+  classDirectories = files()
+  executionData = files()
+
+  reports {
+    html.enabled = true
+    xml.enabled = true
+    csv.enabled = false
+  }
+
+  // Work-around to allow us to build list of executionData files in doFirst
+  onlyIf = {
+    true
+  }
+
+  /*
+   * Builds list of source dirs, class dirs, and executionData files
+   * when task is run, not at script evaluation time
+   */
+  doFirst {
+    subprojects.findAll { subproject ->
+      subproject.pluginManager.hasPlugin('jacoco')
+    }.each { subproject ->
+      additionalSourceDirs files((Set<File>) subproject.sourceSets.main.allJava.srcDirs)
+      additionalClassDirs((FileCollection) subproject.sourceSets.main.output)
+      executionData subproject.tasks.jacocoTestReport.executionData
+    }
+
+    executionData = files(executionData.findAll {
+      it.exists()
+    })
+  }
 }
 
 task clean(type: Delete) {

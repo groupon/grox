@@ -32,7 +32,8 @@ cache:
 
 script:
   - ./gradlew clean build
+  - ./gradlew jacocoTestReport
 
 after_success:
-#  - ./gradlew jacocoTestReport coveralls
+  - bash <(curl -s https://codecov.io/bash)
   - .buildscript/deploy_snapshot.sh

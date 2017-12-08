@@ -26,6 +26,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import rx.Subscription;
 import rx.observers.TestSubscriber;
+import static org.junit.Assert.fail;
 
 public class RxStoresTest {
 
@@ -90,5 +91,15 @@ public class RxStoresTest {
 
     //THEN
     verify(mockStore);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void states_should_throw_when_storeIsNull() {
+
+    //WHEN
+    states(null);
+
+    //THEN
+    fail("Should have thrown an exception");
   }
 }
