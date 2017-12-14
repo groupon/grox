@@ -5,8 +5,8 @@ apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
 
 dependencies {
   api (project(':grox-core'))
+  api deps.rxjava
   compileOnly deps.findbugs
-  implementation deps.rxjava
 
   testImplementation deps.junit
   testImplementation deps.easymock
