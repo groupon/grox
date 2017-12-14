@@ -42,7 +42,7 @@ public class RefreshColorCommand implements Command {
   //don't forget to convert errors in actions
   @Override
   public Observable<? extends Action> actions() {
-      final Observable<Action> refresh = Observable.just(new RefreshAction());
+      final Observable<Action> refresh = just(new RefreshAction());
 
       return refresh.concatWith(refreshColor());
   }
