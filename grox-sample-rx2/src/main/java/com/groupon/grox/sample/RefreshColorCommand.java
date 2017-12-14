@@ -42,13 +42,19 @@ public class RefreshColorCommand implements Command {
   //don't forget to convert errors in actions
   @Override
   public Observable<? extends Action> actions() {
-    return getColorFromServer()
-        .subscribeOn(io())
-        .map(ChangeColorAction::new)
-        .cast(Action.class)
-        .onErrorReturn(ErrorAction::new)
-        .startWith(fromCallable(RefreshAction::new));
+      final Observable<Action> refresh = just(new RefreshAction());
+
+      return refresh.concatWith(refreshColor());
   }
+
+    //don't forget to convert errors in actions
+    private Observable<? extends Action> refreshColor(){
+        return getColorFromServer()
+            .subscribeOn(io())
+            .map(ChangeColorAction::new)
+            .cast(Action.class)
+            .onErrorReturn(ErrorAction::new);
+    }
 
   //fake network call
   private Observable<Integer> getColorFromServer() {
