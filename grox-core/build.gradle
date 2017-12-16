@@ -21,3 +21,5 @@ license {
     java = 'SLASHSTAR_STYLE'
   }
 }
+
+apply from: rootProject.file("${jacoco_gradle_java_file}")

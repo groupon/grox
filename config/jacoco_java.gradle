@@ -1,0 +1,13 @@
+apply plugin: 'jacoco'
+
+jacocoTestReport {
+  dependsOn tasks.test
+
+  reports {
+    html.enabled = true
+    xml.enabled = true
+    csv.enabled = false
+  }
+}
+
+rootProject.tasks.jacocoTestReport.dependsOn tasks.test

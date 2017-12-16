@@ -13,6 +13,11 @@ Grox helps to maintain the state of Java / Android apps.
        <a alt="Maven Central" href="http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22grox-core%22">
       <img src="https://img.shields.io/maven-central/v/com.groupon.grox/grox-core.svg?maxAge=2592000"/></a>
       <br/>
+       <br/>
+      <a href="https://codecov.io/gh/groupon/grox">
+        <img src="https://codecov.io/gh/groupon/grox/branch/master/graph/badge.svg" />
+      </a>
+       <br/>
        <a alt="Android Dev Weekly" href="http://androidweekly.net/issues/issue-282">
       <img src="https://img.shields.io/badge/Android%20Weekly-%23207-brightgreen.svg"/></a>
       <br/>
