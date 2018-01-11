@@ -55,7 +55,7 @@ Store<String> store = new Store<>("Hello");
 //when the store's state changes, update your UI
 states(store).subscribe(System.out::println);
 //start dispatching actions to your store...
-store.dispatch( oldState -> oldState + " Grox");
+store.dispatch(oldState -> oldState + " Grox");
 ```
 
 A command example
