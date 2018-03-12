@@ -15,12 +15,10 @@
  */
 package com.groupon.grox.commands.rxjava2;
 
+import static io.reactivex.Observable.just;
 
 import com.groupon.grox.Action;
-
 import io.reactivex.Observable;
-
-import static io.reactivex.Observable.just;
 
 /**
  * A simple {@link Command} that is also an {@link Action} itself. This class is useful to express
@@ -29,9 +27,9 @@ import static io.reactivex.Observable.just;
  *
  * @param <STATE> the class of the state modified by this action.
  */
-public abstract class SingleActionCommand<STATE> implements Action<STATE>, Command {
+public abstract class SingleActionCommand<STATE> implements Action<STATE>, Command<STATE> {
   @Override
-  public final Observable<? extends Action> actions() {
+  public final Observable<? extends Action<STATE>> actions() {
     return just(this);
   }
 }
