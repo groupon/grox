@@ -17,7 +17,6 @@ package com.groupon.grox.sample;
 
 import static android.graphics.Color.rgb;
 import static io.reactivex.Observable.error;
-import static io.reactivex.Observable.fromCallable;
 import static io.reactivex.Observable.just;
 import static io.reactivex.schedulers.Schedulers.io;
 

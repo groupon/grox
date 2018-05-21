@@ -17,14 +17,12 @@ package com.groupon.grox.sample;
 
 import static android.graphics.Color.*;
 import static rx.Observable.error;
-import static rx.Observable.fromCallable;
 import static rx.Observable.just;
 import static rx.schedulers.Schedulers.io;
 
 import com.groupon.grox.Action;
 import com.groupon.grox.commands.rxjava1.Command;
 import java.util.Random;
-import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import rx.Observable;
 
