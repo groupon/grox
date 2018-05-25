@@ -13,11 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.groupon.grox;
+package com.groupon.grox.rxjava1;
 
-import io.reactivex.Observable;
+import com.groupon.grox.Store;
+import rx.Emitter.BackpressureMode;
+import rx.Observable;
 
-/** A helper class to make it easier to use {@link Store} with Rx 2. */
+/** A helper class to make it easier to use {@link Store} with Rx 1. */
 public final class RxStores {
 
   private RxStores() {
@@ -39,6 +41,6 @@ public final class RxStores {
     if (store == null) {
       throw new IllegalArgumentException("Store is null");
     }
-    return Observable.create(new StoreOnSubscribe<>(store));
+    return Observable.create(new StoreOnSubscribe<>(store), BackpressureMode.ERROR);
   }
 }

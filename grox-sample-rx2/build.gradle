@@ -2,11 +2,16 @@ apply plugin: 'com.android.application'
 apply from: rootProject.file("${quality_gradle_android_file}")
 apply plugin: 'com.github.hierynomus.license'
 
+repositories {
+  google()
+}
+
 android {
   compileSdkVersion versions.compileSdk
   buildToolsVersion versions.buildTools
   defaultConfig {
     minSdkVersion versions.minSdk
+    targetSdkVersion versions.compileSdk
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_1_8

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Grox sample Rx2</string>
+    <string name="change_color">Change color</string>
 </resources>
