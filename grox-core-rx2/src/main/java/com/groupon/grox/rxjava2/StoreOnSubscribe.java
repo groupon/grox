@@ -13,19 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.groupon.grox;
+package com.groupon.grox.rxjava2;
 
-import rx.Emitter;
-import rx.functions.Action1;
-import rx.functions.Cancellable;
+import com.groupon.grox.Store;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Cancellable;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * Internal subscriber to a store's obersvable. It basically allows to unsubscribe from the store
- * when the observable is unsubscribed from.
+ * Internal subscriber to a store's observable. It basically allows to unsubscribe from the store
+ * when the observable is disposed.
  *
  * @param <STATE> the class of the the state of the store.
  */
-final class StoreOnSubscribe<STATE> implements Action1<Emitter<STATE>> {
+final class StoreOnSubscribe<STATE> implements ObservableOnSubscribe<STATE> {
   private final Store<STATE> store;
 
   StoreOnSubscribe(Store<STATE> store) {
@@ -33,14 +36,12 @@ final class StoreOnSubscribe<STATE> implements Action1<Emitter<STATE>> {
   }
 
   @Override
-  public void call(Emitter<STATE> stateEmitter) {
+  public void subscribe(ObservableEmitter<STATE> emitter) throws Exception {
 
     //the internal listener to the store.
     Store.StateChangeListener<STATE> listener =
-        stateEmitter::onNext;
-
-    stateEmitter.setCancellation(() -> store.unsubscribe(listener));
-
+        emitter::onNext;
+    emitter.setCancellable(() -> store.unsubscribe(listener));
     store.subscribe(listener);
   }
 }
