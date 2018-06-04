@@ -13,19 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.groupon.grox;
+package com.groupon.grox.rxjava1;
 
-import org.junit.Test;
-
-import io.reactivex.observers.TestObserver;
-
-import static com.groupon.grox.RxStores.states;
+import static com.groupon.grox.rxjava1.RxStores.states;
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+
+import com.groupon.grox.Store;
+import org.junit.Test;
+import rx.Subscription;
+import rx.observers.TestSubscriber;
 import static org.junit.Assert.fail;
 
 public class RxStoresTest {
@@ -34,13 +35,13 @@ public class RxStoresTest {
   public void states_should_observeInitialState() {
     //GIVEN
     Store<Integer> store = new Store<>(0);
-    TestObserver<Integer> testSubscriber = new TestObserver<>();
+    TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
 
     //WHEN
     states(store).subscribe(testSubscriber);
 
     //THEN
-    testSubscriber.assertNotComplete();
+    testSubscriber.assertNoTerminalEvent();
     testSubscriber.assertValue(0);
   }
 
@@ -48,14 +49,14 @@ public class RxStoresTest {
   public void states_should_observeStateChanges() {
     //GIVEN
     Store<Integer> store = new Store<>(0);
-    TestObserver<Integer> testSubscriber = new TestObserver<>();
+    TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
     states(store).subscribe(testSubscriber);
 
     //WHEN
     store.dispatch(integer -> integer + 1);
 
     //THEN
-    testSubscriber.assertNotComplete();
+    testSubscriber.assertNoTerminalEvent();
     testSubscriber.assertValues(0, 1);
   }
 
@@ -63,18 +64,18 @@ public class RxStoresTest {
   public void states_should_stopObservingStateChanges() {
     //GIVEN
     Store<Integer> store = new Store<>(0);
-    TestObserver<Integer> testSubscriber = new TestObserver<>();
-    states(store).subscribe(testSubscriber);
+    TestSubscriber<Integer> testSubscriber = new TestSubscriber<>();
+    final Subscription subscription = states(store).subscribe(testSubscriber);
 
     //WHEN
-    testSubscriber.dispose();
+    subscription.unsubscribe();
     store.dispatch(integer -> integer + 1);
     final Integer state = store.getState();
 
     //THEN
-    testSubscriber.assertNotComplete();
+    testSubscriber.assertNoTerminalEvent();
     testSubscriber.assertValue(0);
-    assertThat(testSubscriber.isDisposed(), is(true));
+    testSubscriber.assertUnsubscribed();
     assertThat(state, is(1));
   }
 
@@ -87,7 +88,7 @@ public class RxStoresTest {
     replay(mockStore);
 
     //WHEN
-    states(mockStore).subscribe().dispose();
+    states(mockStore).subscribe().unsubscribe();
 
     //THEN
     verify(mockStore);

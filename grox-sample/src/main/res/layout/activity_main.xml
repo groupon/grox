@@ -11,7 +11,7 @@
       android:id="@+id/button"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="Change color"/>
+      android:text="@string/change_color"/>
 
   <TextView
       android:id="@+id/label"

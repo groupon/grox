@@ -15,7 +15,7 @@
  */
 package com.groupon.grox.sample;
 
-import static com.groupon.grox.RxStores.states;
+import static com.groupon.grox.rxjava1.RxStores.states;
 import static com.jakewharton.rxbinding.view.RxView.clicks;
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
 
