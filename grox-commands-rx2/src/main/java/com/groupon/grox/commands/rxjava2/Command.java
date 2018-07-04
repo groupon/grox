@@ -16,7 +16,6 @@
 package com.groupon.grox.commands.rxjava2;
 
 import com.groupon.grox.Action;
-
 import io.reactivex.Observable;
 
 /**
@@ -24,6 +23,6 @@ import io.reactivex.Observable;
  * are used to perform actions with side effects like API calls, saving/loading to/from a file
  * system, etc.
  */
-public interface Command {
-  Observable<? extends Action> actions();
+public interface Command<STATE> {
+  Observable<? extends Action<STATE>> actions();
 }

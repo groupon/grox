@@ -30,7 +30,7 @@ import rx.Observable;
  * Simulates a network call to obtain the color. This command will first ask to refresh the UI, then
  * emit a color change action or an error action.
  */
-public class RefreshColorCommand implements Command {
+public class RefreshColorCommand implements Command<State> {
   private static final int SEED = 7;
   private static final int ERROR_RATE = 5;
   private static final int LATENCY_IN_MS = 1000;
@@ -38,21 +38,16 @@ public class RefreshColorCommand implements Command {
   private static final int MAX_COLOR = 256;
   private static final String ERROR_MSG = "Error. Please retry.";
 
-
   @Override
-  public Observable<? extends Action> actions() {
-    final Observable<Action> refresh = just(new RefreshAction());
+  public Observable<? extends Action<State>> actions() {
+    final Observable<Action<State>> refresh = just(new RefreshAction());
 
-    return refresh.concatWith(refreshColor());
+    //don't forget to convert errors in actions
+    return refresh.concatWith(refreshColor()).onErrorReturn(ErrorAction::new);
   }
 
-  //don't forget to convert errors in actions
-  private Observable<? extends Action> refreshColor(){
-      return getColorFromServer()
-          .subscribeOn(io())
-          .map(ChangeColorAction::new)
-          .cast(Action.class)
-          .onErrorReturn(ErrorAction::new);
+  private Observable<Action<State>> refreshColor() {
+    return getColorFromServer().subscribeOn(io()).map(ChangeColorAction::new);
   }
 
   //fake network call

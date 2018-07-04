@@ -27,9 +27,9 @@ import rx.Observable;
  *
  * @param <STATE> the class of the state modified by this action.
  */
-public abstract class SingleActionCommand<STATE> implements Action<STATE>, Command {
+public abstract class SingleActionCommand<STATE> implements Action<STATE>, Command<STATE> {
   @Override
-  public final Observable<? extends Action> actions() {
+  public final Observable<? extends Action<STATE>> actions() {
     return just(this);
   }
 }
