@@ -15,14 +15,16 @@
  */
 package com.groupon.grox;
 
-import static java.util.Arrays.asList;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.annotation.Nonnull;
+
+import static java.util.Arrays.asList;
 
 /**
  * Like Redux Stores, stores in grox are:
@@ -41,7 +43,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Store<STATE> {
 
   /** The current state of the store. */
-  private STATE state;
+  private @Nonnull STATE state;
   /** The list of internal middle wares. */
   private final List<Middleware<STATE>> middlewares = new ArrayList<>();
   /** The list of all state change listeners that will get notified of state changes. */
@@ -53,7 +55,7 @@ public class Store<STATE> {
   private final AtomicBoolean isDispatching = new AtomicBoolean(false);
 
   @SafeVarargs
-  public Store(STATE initialState, Middleware<STATE>... middlewares) {
+  public Store(@Nonnull STATE initialState, Middleware<STATE>... middlewares) {
     this.state = initialState;
     this.middlewares.add(new NotifySubscribersMiddleware());
     this.middlewares.addAll(asList(middlewares));
@@ -69,7 +71,7 @@ public class Store<STATE> {
    * @see Middleware
    * @see StateChangeListener
    */
-  public synchronized void dispatch(Action<STATE> action) {
+  public synchronized void dispatch(@Nonnull Action<STATE> action) {
     actionQueue.add(action);
     //we still need an atomic boolean here, even though the method is
     //synchronized, because we also use it to unsubscribe.
@@ -89,6 +91,7 @@ public class Store<STATE> {
   }
 
   /** @return the current state of the store. */
+  @Nonnull
   public STATE getState() {
     return state;
   }
@@ -99,7 +102,7 @@ public class Store<STATE> {
    *
    * @param listener the listener to be added.
    */
-  public void subscribe(StateChangeListener<STATE> listener) {
+  public void subscribe(@Nonnull StateChangeListener<STATE> listener) {
     this.stateChangeListeners.add(listener);
     isDispatching.set(true);
     listener.onStateChanged(getState());
@@ -113,7 +116,7 @@ public class Store<STATE> {
    * @param listener the listener to be removed.
    */
   @SuppressWarnings("WeakerAccess")
-  public void unsubscribe(StateChangeListener<STATE> listener) {
+  public void unsubscribe(@Nonnull StateChangeListener<STATE> listener) {
     this.stateChangeListeners.remove(listener);
   }
 
@@ -139,7 +142,7 @@ public class Store<STATE> {
      *
      * @param chain the chain of all middle wares for the store associated to this middleware.
      */
-    void intercept(Chain<STATE> chain);
+    void intercept(@Nonnull Chain<STATE> chain);
 
     /**
      * Represents the linked list of all middle wares int the store. The order of the middle ware
@@ -150,12 +153,15 @@ public class Store<STATE> {
      */
     interface Chain<STATE> {
       /** @return the action being dispatched. */
+      @Nonnull
       Action<STATE> action();
+
       /**
        * @return the current state of the store. The state before the call to {@link
        *     #proceed(Action)} is the state prior to the action being executed. The state after the
        *     call is the state after the action being executed.
        */
+      @Nonnull
       STATE state();
 
       /**
@@ -164,7 +170,7 @@ public class Store<STATE> {
        *
        * @param action the action being dispatched in the store.
        */
-      void proceed(Action<STATE> action);
+      void proceed(@Nonnull Action<STATE> action);
     }
   }
 
@@ -176,14 +182,14 @@ public class Store<STATE> {
    * @see #unsubscribe(StateChangeListener)
    */
   public interface StateChangeListener<STATE> {
-    void onStateChanged(STATE newState);
+    void onStateChanged(@Nonnull STATE newState);
   }
 
   /** Internal middle ware that actually executes the action of a middle ware chain. */
   private class CallReducerMiddleware implements Middleware<STATE> {
 
     @Override
-    public void intercept(Chain<STATE> chain) {
+    public void intercept(@Nonnull Chain<STATE> chain) {
       state = chain.action().newState(state);
     }
   }
@@ -195,7 +201,7 @@ public class Store<STATE> {
   private class NotifySubscribersMiddleware implements Middleware<STATE> {
 
     @Override
-    public void intercept(Chain<STATE> chain) {
+    public void intercept(@Nonnull Chain<STATE> chain) {
       chain.proceed(chain.action());
       for (StateChangeListener<STATE> stateChangeListener : stateChangeListeners) {
         stateChangeListener.onStateChanged(state);
