@@ -15,6 +15,8 @@
  */
 package com.groupon.grox;
 
+import javax.annotation.Nonnull;
+
 /**
  * Like Redux actions, actions in grox are:
  *
@@ -31,5 +33,5 @@ package com.groupon.grox;
  * @param <STATE> the class of the state.
  */
 public interface Action<STATE> {
-  STATE newState(STATE oldState);
+  STATE newState(@Nonnull STATE oldState);
 }
